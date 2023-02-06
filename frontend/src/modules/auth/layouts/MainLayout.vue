@@ -34,7 +34,7 @@ $q.dark.set(false)
 }
 
 .bg-auth {
-  backgroud-color: #F0F4F3;
+  background-color: #F0F4F3;
   background-image: url("src/assets/login/bg-auth.png");
   background-size: cover;
   background-repeat: no-repeat;
