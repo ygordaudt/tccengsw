@@ -23,6 +23,7 @@ export default defineComponent({
     watch(() => isLoading.value, (newVal) => {
       if (newVal) loader.show()
       else loader.hide()
+      console.log("teste")
     })
   }
 })
