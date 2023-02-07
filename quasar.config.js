@@ -14,7 +14,6 @@ const { configure } = require('quasar/wrappers');
 
 module.exports = configure(function (/* ctx */) {
   return {
-    baseUlr: '/tccengsw',
     eslint: {
       // fix: true,
       // include = [],
@@ -56,6 +55,7 @@ module.exports = configure(function (/* ctx */) {
 
     // Full list of options: https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#build
     build: {
+      baseUlr: '/tccengsw',
       target: {
         browser: [ 'es2019', 'edge88', 'firefox78', 'chrome87', 'safari13.1' ],
         node: 'node16'
@@ -68,7 +68,7 @@ module.exports = configure(function (/* ctx */) {
 
       // rebuildCache: true, // rebuilds Vite/linter/etc cache on startup
 
-      publicPath: 'tccengsw',
+      publicPath: '/tccengsw',
       // analyze: true,
       // env: {},
       // rawDefine: {}
