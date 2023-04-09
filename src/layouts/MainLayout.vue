@@ -81,13 +81,10 @@
       <router-view/>
       <q-toolbar class="flex flex-center text-white" style="border-top: 2px solid #0cbcbc; background-color: #263238">
         <div class="q-pa-md q-gutter-sm">
-          <q-btn round type="a" href="https://www.instagram.com/" class="bg-primary text-white"
-                 icon="fab fa-instagram" target="_blank"/>
-          <q-btn round type="a" href="https://github.com/" class="bg-primary text-white" icon="fab fa-github"
+          <!-- <q-btn round type="a" href="https://www.instagram.com/" class="bg-primary text-white"
+                 icon="fab fa-instagram" target="_blank"/> -->
+          <q-btn round type="a" href="https://github.com/ygordaudt/tccengsw/" class="bg-primary text-white" icon="fab fa-github"
                  target="_blank"/>
-          <q-btn round type="a" href="#" class="bg-primary text-white" icon="fab fa-twitter"/>
-          <q-btn round type="a" href="#" class="bg-primary text-white" icon="email"/>
-          <q-btn round type="a" href="#" class="bg-primary text-white" icon="fas fa-heart"/>
         </div>
       </q-toolbar>
     </q-page-container>
