@@ -4,7 +4,7 @@ Before you start, you will need to have Git and a code editor such as VSCode or 
 
 🚀 Running the Project
 # Clone this repository
-$ git clone https://github.com/ygordaudt/tccengsw.git your-project-name
+$ git clone https://github.com/ygordaudt/tccengsw.git
 
 # Install the dependencies
 npm install
