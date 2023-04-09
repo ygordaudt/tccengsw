@@ -37,7 +37,7 @@
                 <q-input v-model="user.password" :rules="[rules.required, rules.minLength(6)]" label="Senha" lazy-rules
                          name="password" type="password" v-bind="$input"/>
                 <div>
-                  <q-btn class="full-width fredoka" color="primary" label="Entrar" rounded></q-btn>
+                  <q-btn class="full-width fredoka" color="primary" label="Entrar" rounded type="submit"></q-btn>
                   <div class="q-mt-lg">
                     <div class="q-mt-sm">
                       Ainda não possui uma conta?
@@ -65,30 +65,38 @@ import rules from 'src/support/rules/fieldRules'
 import {handleErros} from 'src/support/errors/handleErros'
 import {useAuthStore, useCommonStore} from "stores/all";
 import {showPositive} from 'src/support/helpers/notification';
+import { isUserWhitespacable } from '@babel/types';
 
 const $authStore = useAuthStore()
 const $commonStore = useCommonStore()
 const $router = useRouter()
 const $route = useRoute()
 
-const user = reactive({})
+const user = reactive({username : "cliente", password : 123})
 
 const userLogged = computed(() => $authStore.getUser)
 const loading = computed(() => $commonStore.isLoading)
 
 const submitForm = async () => {
-  showPositive('Usuário logado com sucesso')
-  if (1===2) {
-    try {
-      $commonStore.ADD_REQUEST()
-      await $authStore.DO_LOGIN(user)
-      const to = $route.query.to?.toString()
-      $router.push(to || '/admin')
-    } catch (error) {
-      $commonStore.REMOVE_REQUEST()
-      handleErros(error)
-    }
+  if (user.username.toLowerCase() === 'cliente') {
+    $router.push('/costumer')
+  } else if (user.username.toLowerCase() === 'parceiro') {
+    $router.push('/partner')
   }
+  
+  showPositive(`Usuário *${user.username}* logado com sucesso!`)
+
+  // if (1===2) {
+  //   try {
+  //     $commonStore.ADD_REQUEST()
+  //     await $authStore.DO_LOGIN(user)
+  //     const to = $route.query.to?.toString()
+  //     $router.push(to || '/admin')
+  //   } catch (error) {
+  //     $commonStore.REMOVE_REQUEST()
+  //     handleErros(error)
+  //   }
+  // }
 
 }
 </script>

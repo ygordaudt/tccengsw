@@ -1,6 +1,8 @@
 import {routes as commonRoutes} from 'src/modules/common';
 import {routes as authRoutes} from 'src/modules/auth';
 import {routes as adminRoutes} from 'src/modules/admin';
+import {routes as partnerRoutes} from 'src/modules/partner';
+import {routes as costumerRoute} from 'src/modules/costumer';
 
 const routes = [
   {
@@ -23,5 +25,7 @@ export default [
   ...routes,
   ...commonRoutes,
   ...authRoutes,
-  ...adminRoutes
+  ...adminRoutes,
+  ...partnerRoutes,
+  ...costumerRoute
 ]

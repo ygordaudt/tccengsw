@@ -29,11 +29,11 @@
             </q-card-section>
             <q-card-section>
               <q-form class="q-gutter-md" @submit="submitForm">
-                <q-input v-model="email" :rules="[rules.required]" label="Email" lazy-rules
-                         type="email" v-bind="$input"/>
+                <q-input v-model="email" :rules="[rules.required]" label="Email" lazy-rules type="email"
+                  v-bind="$input" />
                 <div>
                   <q-btn :loading="loading" class="full-width" color="primary" label="Enviar" rounded
-                         type="submit"></q-btn>
+                    type="submit"></q-btn>
                   <div class="q-mt-lg">
                     <div class="q-mt-sm">
                       Realizar
@@ -51,12 +51,12 @@
 </template>
 
 <script setup>
-import {computed, ref} from 'vue';
-import {useAuthStore, useCommonStore} from "stores/all";
-import {useQuasar} from 'quasar';
+import { computed, ref } from 'vue';
+import { useAuthStore, useCommonStore } from "stores/all";
+import { useQuasar } from 'quasar';
 import rules from 'src/support/rules/fieldRules';
-import {handleErros} from 'src/support/errors/handleErros';
-import {showPositive} from 'src/support/helpers/notification';
+import { handleErros } from 'src/support/errors/handleErros';
+import { showPositive } from 'src/support/helpers/notification';
 
 const $authStore = useAuthStore()
 const $commonStore = useCommonStore()
@@ -69,10 +69,10 @@ const loading = computed(() => $commonStore.isLoading)
 const submitForm = async () => {
   showPositive('Um link para redefinir sua senha foi enviado para seu e-mail! O E-mail pode demorar alguns minutos para chegar.')
 
-  if (1==2) {
+  if (1 == 2) {
     try {
       $commonStore.commit('common/ADD_REQUEST')
-      await $authStore('authentication/RESET_PASSWORD', {email: email.value})
+      await $authStore('authentication/RESET_PASSWORD', { email: email.value })
       showPositive('Um link para redefinir sua senha foi enviado para seu e-mail! O E-mail pode demorar alguns minutos para chegar.')
       loading.value = false
     } catch (error) {

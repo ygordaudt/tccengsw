@@ -18,7 +18,7 @@
 
         <div class="xs-hide sm-hide">
           <q-btn flat dense no-caps label="Início" @click="goToSection('heroSection')" class="q-mx-sm"/>
-          <q-btn flat dense no-caps label="Funcionalidades" @click="goToSection('features')" class="q-mx-sm"/>
+          <q-btn flat dense no-caps label="Conheça mais" @click="goToSection('features')" class="q-mx-sm"/>
           <q-btn flat dense no-caps label="Sobre nós" @click="goToSection('about')" class="q-mx-sm"/>
           <q-btn
             dense
