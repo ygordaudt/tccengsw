@@ -6,7 +6,7 @@
 
         <!-- CARDS GRANDES NUMEROS -->
         <div class="row">
-          <div class="col-6 col-md-12">
+          <div class="col-6 col-sm-12">
             <q-card class="q-mx-md q-pa-lg">
               <div class="text-overline flex-center row">Total de cashback gerado</div>
               <div class="flex flex-center row">
@@ -17,7 +17,7 @@
             </q-card>
           </div>
 
-          <div class="col-6 col-md-12">
+          <div class="col-6 col-sm-12">
             <q-card class="q-mx-md q-pa-lg">
               <div class="text-overline flex-center row">Total de cashback sacado</div>
               <div class="flex flex-center row">
@@ -62,7 +62,7 @@
       </div>
 
       <!-- CARROSEL -->
-      <div class="col-4 col-md-12 q-gutter-md">
+      <div class="col-4 col-sm-12 q-gutter-md">
         <q-card class="q-mx-sm">
           <div class="text-overline flex-center row q-pt-lg">Benefícios gerados</div>
           <q-carousel v-model="slide" transition-prev="scale" transition-next="scale" swipeable animated
