@@ -1,112 +1,92 @@
 <template>
   <q-page class="q-pa-sm">
     <q-card class="q-mt-xl">
-        <q-table
-          title="Meus cupons"
-          :rows="rows"
-          :columns="columns"
-          row-key="name"
-        />
+      <q-table
+        title="Meus cupons"
+        :rows="rows"
+        :columns="columns"
+        row-key="name"
+      >
+        <template v-slot:body-cell-options="props">
+          <q-btn class="bg-negative q-mt-sm" @click="cancelarSolicitacao(props.row.id)">Cancelar</q-btn>
+        </template>
+      </q-table>
     </q-card>
+
+    <div class="q-mt-xl flex-center row">
+      <q-btn class="bg-primary" @click="exibirCupomsDisponiveis" v-if="!mostrarCadastrarCupom">+ Solicitar Cashback</q-btn>
+      <q-btn @click="mostrarCadastrarCupom = false" v-if="mostrarCadastrarCupom">Cancelar</q-btn>
+      <div class="q-mt-xl" v-if="mostrarCadastrarCupom">
+        <div class="text-overline flex-center row">Cupons disponíveis na SERPRO</div>
+        <div class="flex flex-center row">
+          <q-btn @click="selecionarCupom(cupom)" class="q-mt-sm q-mb-sm q-mr-md" v-for="cupom of cupomsDisponiveis" :key="cupom">{{ cupom }}</q-btn>
+        </div>
+      </div>
+    </div>
+
   </q-page>
 </template>
 
-<script setup>
-import QrcodeStream from 'vue-qrcode-reader'
+<script>
+import CouponsService from '../services/couponsService.js';
+import SolicitacaoCashbackService from '../services/solicitacaoCashbackService.js';
+import {showPositive} from 'src/support/helpers/notification';
 
-const onDecode = (data) => console.log(data)
+export default {
 
-
-const columns = [
-  {
-    name: 'dataHora',
-    required: true,
-    label: 'Data',
-    align: 'left',
-    field: row => row.dataHora,
-    format: val => `${val}`,
-    sortable: true
+  data() {
+    return {
+      cupomsDisponiveis: [],
+      mostrarCadastrarCupom: false,
+      rows: [],
+      columns: [
+        { name: 'dataHoraAtualizacaoFormatado', align: 'left', label: 'Data', field: 'dataHoraAtualizacaoFormatado', sortable: true },
+        { name: 'cupomFiscal.parceiro.nome', align: 'left', label: 'Parceiro', field: row => row.cupomFiscal.parceiro.nome, sortable: true },
+        { name: 'cupomFiscal.parceiro.cidade', align: 'left', label: 'Cidade', field: row => row.cupomFiscal.parceiro.cidade, sortable: true },
+        { name: 'cupomFiscal.parceiro.estado', align: 'left', label: 'UF', field: row => row.cupomFiscal.parceiro.estado, sortable: true },
+        { name: 'cupomFiscal.quantidadeTotal', label: 'Qtde de itens', field: row => row.cupomFiscal.quantidadeTotal , sortable: true },
+        { name: 'cupomFiscal.valorTotalFormatado', label: 'Valor da compra', field: row => row.cupomFiscal.valorTotalFormatado, sortable: true },
+        { name: 'ordemPagamentoCashback.valorFormatado', label: 'Valor do cashback', field: row => row.ordemPagamentoCashback.valorFormatado , sortable: true },
+        { name: 'status', label: 'Status', field: 'statusAtual' , sortable: true },
+        { name: 'options', label: 'Ações', align: 'center'}
+      ]
+    }
   },
-  { name: 'nomeParceiro', align: 'left', label: 'Parceiro', field: 'nomeParceiro', sortable: true },
-  { name: 'nomeCidade', align: 'left', label: 'Cidade', field: 'nomeCidade', sortable: true },
-  { name: 'siglaEstado', align: 'left', label: 'UF', field: 'siglaEstado', sortable: true },
-  { name: 'quantidadeItens', label: 'Qtde de itens', field: 'quantidadeItens' , sortable: true },
-  { name: 'valorCompra', label: 'Valor da compra', field: 'valorCompra', sortable: true },
-  { name: 'valorCashback', label: 'Valor do cashback', field: 'valorCashback' , sortable: true },
-  { name: 'status', label: 'Status', field: 'status' , sortable: true }
-]
-
-const rows = [
-{
-    "dataHora": "10/04/2023 14:25",
-    "nomeParceiro": "Empresa A",
-    "nomeCidade": "São Paulo",
-    "siglaEstado": "SP",
-    "quantidadeItens": 5,
-    "valorCompra": "R$ 50.0",
-    "valorCashback": "R$ 2.5",
-    "status": "Pago"
+  mounted() {
+    this.listar();
   },
-  {
-    "dataHora": "11/04/2023 10:13",
-    "nomeParceiro": "Empresa B",
-    "nomeCidade": "Rio de Janeiro",
-    "siglaEstado": "RJ",
-    "quantidadeItens": 3,
-    "valorCompra": "R$ 30.0",
-    "valorCashback": "R$ 0.9",
-    "status": "Pago"
-  },
-  {
-    "dataHora": "11/04/2023 15:42",
-    "nomeParceiro": "Empresa C",
-    "nomeCidade": "Belo Horizonte",
-    "siglaEstado": "MG",
-    "quantidadeItens": 8,
-    "valorCompra": "R$ 80.0",
-    "valorCashback": "R$ 6.4",
-    "status": "Pago"
-  },
-  {
-    "dataHora": "12/04/2023 09:50",
-    "nomeParceiro": "Empresa D",
-    "nomeCidade": "Curitiba",
-    "siglaEstado": "PR",
-    "quantidadeItens": 2,
-    "valorCompra": "R$ 15.0",
-    "valorCashback": "R$ 0.3",
-    "status": "Processando"
-  },
-  {
-    "dataHora": "13/04/2023 11:05",
-    "nomeParceiro": "Empresa E",
-    "nomeCidade": "Porto Alegre",
-    "siglaEstado": "RS",
-    "quantidadeItens": 6,
-    "valorCompra": "R$ 55.0",
-    "valorCashback": "R$ 3.3",
-    "status": "Pago"
-  },
-  {
-    "dataHora": "14/04/2023 16:30",
-    "nomeParceiro": "Empresa F",
-    "nomeCidade": "Fortaleza",
-    "siglaEstado": "CE",
-    "quantidadeItens": 4,
-    "valorCompra": "R$ 40.0",
-    "valorCashback": "R$ 1.6",
-    "status": "Processando"
-  },
-  {
-    "dataHora": "15/04/2023 13:20",
-    "nomeParceiro": "Empresa G",
-    "nomeCidade": "Recife",
-    "siglaEstado": "PE",
-    "quantidadeItens": 7,
-    "valorCompra": "R$ 70.0",
-    "valorCashback": "R$ 4.9",
-    "status": "Pago"
+  methods: {
+    listar() {
+      SolicitacaoCashbackService.listar().then(response => {
+        this.rows = response.data.content
+        console.log(this.rows)
+      })
+    },
+    preencherCupomsDisponiveis() {
+      CouponsService.listarDisponiveis().then(response => {
+        this.cupomsDisponiveis = response.data
+      })
+    },
+    selecionarCupom(codigoCupom) {
+      SolicitacaoCashbackService.registrar(codigoCupom).then(response => {
+        console.log(response)
+        this.mostrarCadastrarCupom = false;
+        showPositive(`Solicitação de cashback registrada com sucesso!`)
+        this.listar();
+      })
+    },
+    exibirCupomsDisponiveis() {
+      this.mostrarCadastrarCupom = true;
+      this.preencherCupomsDisponiveis();
+    },
+    cancelarSolicitacao(id) {
+      SolicitacaoCashbackService.deletar(id).then(response => {
+        console.log(response)
+        showPositive(`Solicitação de cashback cancelada com sucesso!`)
+        this.listar();
+      })
+    }
   }
-]
+}
 
 </script>

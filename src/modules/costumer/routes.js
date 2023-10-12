@@ -16,7 +16,7 @@ export default [
           {
             name: 'Cadastrar Cupon Fiscal',
             path: '/register',
-            component: () => import('./pages/CouponRegisterpage.vue')
+            component: () => import('./pages/CouponRegisterPage.vue')
           }
         ]
       }
