@@ -1,5 +1,6 @@
 import axios from "axios";
 import { Loading } from 'quasar'
+import { showNegative } from "src/support/helpers/notification";
 
 export const http = axios.create({
     baseURL: 'https://tccengsw-api-production.up.railway.app/api'
@@ -17,6 +18,7 @@ http.interceptors.response.use(
     },
     (error) => {
         Loading.hide();
+        showNegative(error.response.data || 'Ocorreu um erro na requisição.',)
         return Promise.reject(error);
     }
 );
