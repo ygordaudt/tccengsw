@@ -1,5 +1,16 @@
 <template>
   <q-page class="q-pa-sm">
+
+    <div>
+      <form @submit.prevent="pesquisar">
+        <div class="form-group">
+          <label for="texto">ID da solicitação de cashback:</label>
+          <input type="number" id="idSolicitacao" v-model="idSolicitacao" class="form-control q-ml-sm q-mr-sm"  />
+          <button type="submit" class="btn btn-primary">Pesquisar</button>
+        </div>
+      </form>
+    </div>
+
     <q-card class="q-mt-xl">
       <q-table
         title="Meus cupons"
@@ -39,8 +50,10 @@ export default {
       cupomsDisponiveis: [],
       mostrarCadastrarCupom: false,
       rows: [],
+      idSolicitacao: null,
       columns: [
         { name: 'dataHoraAtualizacaoFormatado', align: 'left', label: 'Data', field: 'dataHoraAtualizacaoFormatado', sortable: true },
+        { name: 'id', align: 'left', label: 'ID Solicitação', field: 'id', sortable: true },
         { name: 'cupomFiscal.parceiro.nome', align: 'left', label: 'Parceiro', field: row => row.cupomFiscal.parceiro.nome, sortable: true },
         { name: 'cupomFiscal.parceiro.cidade', align: 'left', label: 'Cidade', field: row => row.cupomFiscal.parceiro.cidade, sortable: true },
         { name: 'cupomFiscal.parceiro.estado', align: 'left', label: 'UF', field: row => row.cupomFiscal.parceiro.estado, sortable: true },
@@ -84,6 +97,13 @@ export default {
         console.log(response)
         showPositive(`Solicitação de cashback cancelada com sucesso!`)
         this.listar();
+      })
+    },
+    pesquisar() {
+      SolicitacaoCashbackService.consultar(this.idSolicitacao).then(response => {
+        this.rows = []
+        this.rows.push(response.data)
+        console.log(this.rows)
       })
     }
   }
