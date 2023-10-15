@@ -2,13 +2,11 @@
   <q-page class="q-pa-sm">
 
     <div>
-      <form @submit.prevent="pesquisar">
-        <div class="form-group">
-          <label for="texto">ID da solicitação de cashback:</label>
-          <input type="number" id="idSolicitacao" v-model="idSolicitacao" class="form-control q-ml-sm q-mr-sm"  />
-          <button type="submit" class="btn btn-primary">Pesquisar</button>
-        </div>
-      </form>
+      <div class="form-group">
+        <label for="texto">ID da solicitação de cashback:</label>
+        <input type="number" id="idSolicitacao" v-model="idSolicitacao" class="form-control q-ml-sm q-mr-sm"  />
+        <q-btn class="bg-primary" @click="pesquisar">Pesquisar</q-btn>
+      </div>
     </div>
 
     <q-card class="q-mt-xl">
@@ -18,7 +16,7 @@
         :columns="columns"
         row-key="name"
       >
-      
+
         <template v-slot:body-cell-options="props">
           <q-btn class="bg-negative q-mt-sm" @click="cancelarSolicitacao(props.row.id)">Cancelar</q-btn>
         </template>
@@ -43,6 +41,7 @@
 import CouponsService from '../services/couponsService.js';
 import SolicitacaoCashbackService from '../services/solicitacaoCashbackService.js';
 import {showPositive} from 'src/support/helpers/notification';
+import {showNegative} from 'src/support/helpers/notification';
 
 export default {
 
@@ -101,6 +100,11 @@ export default {
       })
     },
     pesquisar() {
+      if (this.idSolicitacao == null || this.idSolicitacao == '') {
+        showNegative(`O preenchimento do código é obrigatório!`)
+        return
+      }
+
       SolicitacaoCashbackService.consultar(this.idSolicitacao).then(response => {
         this.rows = []
         this.rows.push(response.data)

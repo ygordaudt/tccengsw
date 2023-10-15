@@ -1,1 +1,0 @@
-import{ap as s}from"./index.12ba16ed.js";const t=(o,i)=>{s.create({type:o,message:i,actions:[{icon:"close",color:"white"}],position:"top-right"})},a=o=>t("negative",o),c=o=>t("positive",o);export{a,c as s};
