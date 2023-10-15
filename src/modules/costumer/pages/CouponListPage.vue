@@ -18,6 +18,7 @@
         :columns="columns"
         row-key="name"
       >
+      
         <template v-slot:body-cell-options="props">
           <q-btn class="bg-negative q-mt-sm" @click="cancelarSolicitacao(props.row.id)">Cancelar</q-btn>
         </template>
